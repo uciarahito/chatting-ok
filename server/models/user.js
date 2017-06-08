@@ -11,6 +11,10 @@ let userSchema = new Schema({
     type: String,
     default: '+6281315853615'
   },
+  role: {
+    type: String,
+    default: 'user'
+  },
   createdDate: {
     type: Date,
     default: Date.now()
