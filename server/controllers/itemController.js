@@ -38,7 +38,7 @@ methods.createItem = (req, res) => {
 
 methods.getAllItem = (req, res) => {
   Item.find({}, (err, records) => {
-    if (err) req.json(err)
+    if (err) res.json(err)
     console.log('Get all item success');
     console.log(records);
     res.send(records)
@@ -47,7 +47,7 @@ methods.getAllItem = (req, res) => {
 
 methods.getItemById = (req, res) => {
   Item.findById(req.params.id, (err, record) => {
-    if (err) req.json(err)
+    if (err) res.json(err)
     console.log('Get item by id success');
     console.log(record);
     res.send(record)
@@ -57,7 +57,7 @@ methods.getItemById = (req, res) => {
 
 methods.editItemById = (req, res) => {
   Item.findById(req.params.id, (err, record) => {
-    if (err) req.json(err)
+    if (err) res.json(err)
     console.log('Get item by id success');
     console.log(record);
     Item.findByIdAndUpdate({
@@ -85,7 +85,7 @@ methods.editItemById = (req, res) => {
 
 methods.deleteItemById = (req, res) => {
   Item.findById(req.params.id, (err, record) => {
-    if (err) req.json(err)
+    if (err) res.json(err)
     console.log('Get item by id success');
     console.log(record);
     Item.deleteOne({
