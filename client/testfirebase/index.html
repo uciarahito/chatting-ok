@@ -8,6 +8,8 @@
     <script src="https://www.gstatic.com/firebasejs/4.1.2/firebase.js"></script>
   </head>
   <body>
+    <p id="demo"></p>
+
     <div id="app">
       <p v-for="list in list_chat_harga">Ridho Rhoma : {{list}}<p>
       <input type="text" v-model="hargaTawaran">
@@ -31,6 +33,7 @@
     var app = new Vue({
       el : '#app',
       data:{
+        berlaku:true,
         hargaTawaran:'0',
         list_chat_harga:[],
         id:'barang'
@@ -38,21 +41,37 @@
       methods:{
         tambahHarga:function(){
           let self = this;
-          firebase.database().ref(this.id).set({
-            harga:this.hargaTawaran
-          });
-          this.hargaTawaran = '0'
+          let ujung = this.list_chat_harga.length
+          if(ujung == 0 && this.berlaku == true){
+            firebase.database().ref(this.id).set({
+              harga:parseInt(this.hargaTawaran)
+            });
+            this.hargaTawaran =0
+          }
+          else if(this.list_chat_harga[ujung-1]<this.hargaTawaran && this.berlaku == true){
+            firebase.database().ref(this.id).set({
+              harga:parseInt(this.hargaTawaran)
+            });
+            this.hargaTawaran = 0
+          } else if(this.berlaku == true) {
+            alert('tawaran tidak bisa lebih kecil')
+            this.hargaTawaran = 0
+          } else {
+            alert('waktu habis')
+            this.hargaTawaran = 0
+          }
+
         },
         tambahListHarga:function(harga){
-          let ujung = this.list_chat_harga.length
-
-          if(ujung == 0){
-            this.list_chat_harga.push(harga)
-          }
-          else if(this.list_chat_harga[ujung-1]<harga){
-            this.list_chat_harga.push(harga)
-          }
-          console.log(this.list_chat_harga);
+          this.list_chat_harga.push(harga)
+          // let ujung = this.list_chat_harga.length
+          //
+          // if(ujung == 0){
+          //   this.list_chat_harga.push(harga)
+          // }
+          // else if(this.list_chat_harga[ujung-1]<harga){
+          //   this.list_chat_harga.push(harga)
+          // }
         }
       }
     })
@@ -64,5 +83,25 @@
         app.tambahListHarga(snapshot.val())
       }
     });
+
+
+    var countDownDate = new Date("Jun 8, 2017 21:13:40").getTime();
+    var x = setInterval(function() {
+      var now = new Date().getTime();
+      var distance = countDownDate - now;
+      var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      document.getElementById("demo").innerHTML = days + "d " + hours + "h "
+      + minutes + "m " + seconds + "s ";
+        if (distance < 0) {
+          clearInterval(x);
+          app.berlaku = false
+          document.getElementById("demo").innerHTML = "EXPIRED";
+        }
+    }, 1000);
+
+
   </script>
 </html>
