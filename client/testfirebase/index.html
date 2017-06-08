@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>TEST</title>
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.4.2/css/bulma.min.css" /> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.3/vue.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.1.2/firebase.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <p v-for="list in list_chat_harga">Ridho Rhoma : {{list}}<p>
+      <input type="text" v-model="hargaTawaran">
+      <button type="button" @click="tambahHarga">Tambah Harga</button>
+    </div>
+
+  </body>
+
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyCX_VKmd_MhPtAjwk-xeNj49IRAzFvY88o",
+      authDomain: "bukalelang-c2aff.firebaseapp.com",
+      databaseURL: "https://bukalelang-c2aff.firebaseio.com",
+      projectId: "bukalelang-c2aff",
+      storageBucket: "bukalelang-c2aff.appspot.com",
+      messagingSenderId: "816334350249"
+    };
+    firebase.initializeApp(config);
+
+
+
+
+
+    var app = new Vue({
+      el : '#app',
+      data:{
+        hargaTawaran:'0',
+        list_chat_harga:[]
+      },
+      methods:{
+        tambahHarga:function(){
+          let self = this
+          firebase.database().ref().set({
+            harga:this.hargaTawaran
+          });
+          this.hargaTawaran = '0'
+        },
+        tambahListHarga:function(harga){
+          this.list_chat_harga.push(harga)
+          console.log(this.list_chat_harga);
+        }
+      }
+    })
+
+    var starCountRef = firebase.database().ref().child('harga');
+    starCountRef.on('value', function(snapshot) {
+      if(snapshot.val() != '0'){
+        app.tambahListHarga(snapshot.val())
+      }
+    });
+  </script>
+</html>
