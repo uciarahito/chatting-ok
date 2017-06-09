@@ -9,7 +9,8 @@ Vue.use(Vuex)
 export const store = new Vuex.Store({
   state: {
     user: [],
-    signIn: []
+    signIn: [],
+    dataItems: []
   },
   getters: getters.Getters,
   mutations: mutations.Mutations,

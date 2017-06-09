@@ -7,6 +7,12 @@ export const Mutations = {
     state.user.push(payload)
     window.location = "/"
   },
+  signUp: (state, payload) => {
+    state.user.push(payload)
+  },
+  dataItems: (state, payload) => {
+    state.dataItems = payload
+  },
   convertDate: (state, payload) => {
     let getDate = new Date(payload);
     let month = new Array();

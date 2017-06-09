@@ -59,7 +59,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-// import Content from './Content'
+import Content from './Content'
 
 // Proses login facebook-sdk
 window.fbAsyncInit = function() {
@@ -136,6 +136,9 @@ function fb_login(){
 }
 
 export default {
+  components: {
+    Content
+  },
   data() {
     return {
       form_signup: {

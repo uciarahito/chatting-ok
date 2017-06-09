@@ -14,7 +14,8 @@ router.put('/edituser/:id', userController.editUser)  // password harus disertak
 router.delete('/deleteuser/:id', userController.deleteUserById)
 
 // NOTE: item
-router.get('/bukalapak/:keyword', itemController.getItemBukalapak);
+router.get('/bukalapakbyparam/:keyword', itemController.getProdukByParam);
+router.get('/bukalapak', itemController.getItemByParameter);
 router.post('/createitem', helpers.checkRole, itemController.createItem)
 router.get('/allitem', itemController.getAllItem)
 router.get('/detailitem/:id', itemController.getItemById)

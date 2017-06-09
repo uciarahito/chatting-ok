@@ -30,5 +30,29 @@ export const Actions = {
       console.log(error);
       console.log('error, masuk ke catch');
     })
+  },
+  dataItems: ({commit}) => {
+    axios.get(`http://localhost:3000/bukalapak`)
+    .then(response => {
+      console.log('Action dataItems');
+      console.log(response.data);
+      commit('dataItems', response.data)
+    })
+    .catch(error => {
+      console.log(error);
+      console.log('error, masuk ke catch');
+    })
+  },
+  dataItemByParam: ({commit}, payload) => {
+    axios.get(`http://localhost:3000/bukalapakbyparam/${payload}`)
+    .then(response => {
+      console.log('Action dataItemByParam');
+      console.log(response.data);
+      commit('dataItems', response.data)
+    })
+    .catch(error => {
+      console.log(error);
+      console.log('error, masuk ke catch');
+    })
   }
 }
