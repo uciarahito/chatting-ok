@@ -64,8 +64,8 @@
           <p style="color:navy;">Waktu berjalan</p>
           <p id="demo"></p>
           <p>List semua bids</p>
-          <!-- <p v-if="idItemFirebase != undefined">{{userActive}} : {{idItemFirebase[0]['.value']}}</p> -->
           <!-- <p>{{userActive}} : {{idItemFirebase[0]['.value']}}</p> -->
+          <p>{{userActive}}</p>
           <!-- <p v-for="list in list_chat_harga">{{userActive}}: {{list}}</p> -->
           <input type="number" v-model="dataPasti.price">
           <button type="button" @click="tambahHarga">Tambah Harga</button>
@@ -107,29 +107,29 @@ function postFacebook(status) {
   });
 }
 
-// var d1 = new Date (),
-// d2 = new Date (d1);
-// d2.setMinutes (d1.getMinutes() + 5);
-// // console.log(new Date(d2).getTime())
-// var countDownDate = new Date(d2).getTime();
-// // var countDownDate = new Date("Jun 9, 2017 12:00:00").getTime();
-// var x = setInterval(function() {
-//   var now = new Date().getTime();
-//   var distance = countDownDate - now;
-//   var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-//   var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-//   var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-//   var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-//   document.getElementById("demo").innerHTML = days + " d " + hours + " h " + minutes + " m " + seconds + " s ";
-//   // this.waktujalan = days + " d " + hours + " h " + minutes + " m " + seconds + " s "
-//   if (distance < 0) {
-//     clearInterval(x);
-//     console.log('ini app dari waktu',this, app);
-//     app.berlaku = false
-//     document.getElementById("demo").innerHTML = "EXPIRED";
-//     app.waktujalan = 'EXPIRED'
-//   }
-// }, 1000);
+var d1 = new Date (),
+d2 = new Date (d1);
+d2.setMinutes (d1.getMinutes() + 5);
+// console.log(new Date(d2).getTime())
+var countDownDate = new Date(d2).getTime();
+// var countDownDate = new Date("Jun 9, 2017 12:00:00").getTime();
+var x = setInterval(function() {
+  var now = new Date().getTime();
+  var distance = countDownDate - now;
+  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+  document.getElementById("demo").innerHTML = days + " d " + hours + " h " + minutes + " m " + seconds + " s ";
+  // this.waktujalan = days + " d " + hours + " h " + minutes + " m " + seconds + " s "
+  if (distance < 0) {
+    clearInterval(x);
+    console.log('ini app dari waktu',this, app);
+    app.berlaku = false
+    document.getElementById("demo").innerHTML = "EXPIRED";
+    app.waktujalan = 'EXPIRED'
+  }
+}, 1000);
 
 export default {
   name: 'detailitem',
@@ -216,13 +216,17 @@ export default {
     console.log(this.dataPasti);
     console.log(this.dataPasti.seller_name);
 
-    var starCountRef = idItemFirebase.child('harga');
-    starCountRef.on('value', function(snapshot) {
-      if(snapshot.val() != '0'){
-        console.log('hasil',snapshot.val());
-        this.tambahListHarga(snapshot.val())
-      }
-    });
+    this.list_chat_harga.push(this.idItemFirebase)
+
+    // console.log('pussssssss');
+    // console.log(this.idItemFirebase);
+    // var starCountRef = idItemFirebase.child('harga');
+    // starCountRef.on('value', function(snapshot) {
+    //   if(snapshot.val() != '0'){
+    //       console.log('hasil ==============',snapshot.val());
+    //       this.tambahListHarga(snapshot.val())
+    //   }
+    // });
 
     // var d1 = new Date (),
     // d2 = new Date ( d1 );

@@ -18,11 +18,11 @@ methods.sendSMS = function(data) {
     // console.log('masuk ke helper sendSMS');
     // console.log(parseDueDate);
     // console.log('tutupnya');
-    new CronJob(`00 ${s} ${h} ${d} ${m} ${e}`, function() {
+    new CronJob(`10 * * * * *`, function() {
         var job = queue.create('sms', {
-            message: data.title + ': ' + data.content,
-            name: data.user.username,
-            phone: data.user.phone
+            message: 'Selamat datang di website kami',
+            name: data.username,
+            phone: data.phone
         }).save(function(err) {
             if (!err) console.log(job.id);
             console.log('You will see this message every second');
@@ -31,7 +31,7 @@ methods.sendSMS = function(data) {
         queue.process('sms', function(job, done) {
             // console.log(job);
             var params = {
-                Message: `Hi ${job.data.name}, you have to complete your todo: ${job.data.message}`,
+                Message: `Hi ${job.data.name}, ${job.data.message}`,
                 PhoneNumber: job.data.phone
             };
             // console.log(params);
