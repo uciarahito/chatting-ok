@@ -51,9 +51,8 @@
         <el-button type="primary" @click="signIn(form_signin);dialogFormVisibleSignin = false;">Confirm</el-button>
       </span>
     </el-dialog>
-    <!-- <img src="https://geffchang.files.wordpress.com/2012/05/stackoverflow-stickers2.jpg" v-show="statusLogin === null" style="height:600px;width:1270px;opacity:0.4;filter:alpha(opacity=50);"> -->
-
-    <Content v-show="statusLogin"></Content>
+    
+    <!-- <Content v-show="statusLogin"></Content> -->
   </div>
 </template>
 

@@ -14,12 +14,13 @@ export default new Router({
       component: Hello
     },
     {
-      path: '/content',
+      path: '/',
       name: 'Content',
       component: Content
     },
     {
-      path: '/detailitem',
+      path: '/detailitem/:id',
+      props: true,
       name: 'DetailItem',
       component: DetailItem
     }

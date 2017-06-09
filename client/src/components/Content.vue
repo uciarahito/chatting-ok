@@ -1,6 +1,8 @@
 <template lang="html">
   <div>
-    <el-row :gutter="20" type="flex" class="row-bg" justify="center" v-show="displayListItem">
+    <img src="http://kebudayaan.kemdikbud.go.id/bpnbaceh/wp-content/uploads/sites/15/2016/06/4136391_20150114103134.jpg" v-show="statusLogin === null" style="height:600px;width:1270px;opacity:0.4;filter:alpha(opacity=50);">
+
+    <el-row :gutter="20" type="flex" class="row-bg" justify="center" v-show="statusLogin">
       <el-col :span="17">
         <div class="grid-content">
           <div style="margin-top:15px;">
@@ -15,8 +17,11 @@
               <el-card :body-style="{ padding: '0px' }">
                 <img :src="item.images[0]" class="image">
                 <div style="padding: 14px;">
-                  <span v-if="item.name.length >= 50" @click="viewDetail(index)">{{ item.name.slice(0, 25) }}...</span>
-                  <span v-else @click="viewDetail(index)"><b>{{item.name}}</b></span>
+                  <!-- <span v-if="item.name.length >= 50" @click="viewDetail(index)" :detailitem="content">{{ item.name.slice(0, 25) }}...</span>
+                  <span v-else @click="viewDetail(index)" :detailitem="content"><b>{{item.name}}</b></span> -->
+
+                  <router-link v-if="item.name.length >= 50" :to="'detailitem/'+item.id">{{ item.name.slice(0, 25) }}...</router-link>
+                  <router-link v-else :to="'detailitem/'+item.id">{{item.name}}</router-link>
                   <br>
                   <el-row style="margin:10px 0px 0px 0px;">
                     <span class="mini-title">{{ item.price }}</span>
@@ -47,7 +52,7 @@
         </div>
       </el-col>
     </el-row>
-    <DetailItem v-show="displayDetailItem" :detailitem="content"></DetailItem>
+    <!-- <DetailItem v-show="displayDetailItem" :detailitem="content"></DetailItem> -->
   </div>
 
 </template>
@@ -73,10 +78,11 @@ export default {
   methods: {
     viewDetail(index) {
       this.content = this.dataItems[index]
+      this.$router.push('/detailitem')
       console.log('Ini content');
-      console.log(this.content);
-      this.displayListItem = false
-      this.displayDetailItem = true
+      // console.log(this.content);
+      // this.displayListItem = false
+      // this.displayDetailItem = true
     },
     onSearchByParam() {
       alert(this.keyword)
