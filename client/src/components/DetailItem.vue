@@ -62,8 +62,12 @@
       <div class="grid-content">
         <div style="margin-top:15px;text-align:-webkit-auto;">
           <p style="color:navy;">Waktu berjalan</p>
+          <p id="demo"></p>
           <el-button type="warning">Start Bid</el-button>
-          <p>List semu bids</p>
+          <p>List semua bids</p>
+          <p v-for="list in list_chat_harga">Ridho Rhoma : {{list}}</p>
+          <input type="text" v-model="hargaTawaran">
+          <button type="button" @click="tambahHarga">Tambah Harga</button>
         </div>
       </div>
     </el-col>
@@ -102,12 +106,41 @@ function postFacebook(status) {
   });
 }
 
+  var countDownDate = new Date("Jun 9, 2016 10:08:00").getTime();
+  var x = setInterval(function() {
+    var now = new Date().getTime();
+    var distance = countDownDate - now;
+    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    document.getElementById("demo").innerHTML = days + " d " + hours + " h " + minutes + " m " + seconds + " s ";
+    // this.waktujalan = days + " d " + hours + " h " + minutes + " m " + seconds + " s "
+    if (distance < 0) {
+      clearInterval(x);
+      console.log('ini app dari waktu',this, app);
+      app.berlaku = false
+      document.getElementById("demo").innerHTML = "EXPIRED";
+      app.waktujalan = 'EXPIRED'
+    }
+  }, 1000);
+
 export default {
   name: 'detailitem',
   props: ['detailitem'],
+  firebase () {
+    return {
+      idItemFirebase: this.$db.ref(this.idItem)
+    }
+  },
   data() {
     return {
-      isi: 'testing post to fb from app cuyy'
+      isi: 'testing post to fb from app cuyy',
+      berlaku: true,
+      hargaTawaran:'0',
+      list_chat_harga:[],
+      idItem:'',
+      waktujalan: ''
     }
   },
   methods: {
@@ -118,7 +151,55 @@ export default {
       console.log(this.isi);
       let dataTeks = ''+this.isi
       postFacebook(dataTeks)
+    },
+    tambahHarga:function(){
+      let self = this;
+      let ujung = this.list_chat_harga.length
+      if(ujung == 0 && this.berlaku == true){
+
+        this.$db.ref(this.idItem).set({
+          username: window.localStorage.getItem('user'),
+          harga: parseInt(this.hargaTawaran)
+        })
+        this.hargaTawaran = 0
+
+        // firebase.database().ref(this.id).set({
+        //   harga:parseInt(this.hargaTawaran)
+        // });
+      }
+      else if(this.list_chat_harga[ujung-1]<this.hargaTawaran && this.berlaku == true){
+        // firebase.database().ref(this.id).set({
+        //   username: window.localStorage.getItem('user'),
+        //   harga:parseInt(this.hargaTawaran)
+        // });
+        // this.hargaTawaran = 0
+        this.$db.ref(this.idItem).set({
+          username: window.localStorage.getItem('user'),
+          harga: parseInt(this.hargaTawaran)
+        })
+        this.hargaTawaran = 0
+      } else if(this.berlaku == true) {
+        alert('tawaran tidak bisa lebih kecil')
+        this.hargaTawaran = 0
+      } else {
+        alert('waktu habis')
+        this.hargaTawaran = 0
+      }
+    },
+    tambahListHarga(harga){
+      this.list_chat_harga.push(harga)
     }
+  },
+  created() {
+    this.id = this.detailitem.id
+
+    var starCountRef = this.idItemFirebase.child('harga');
+    starCountRef.on('value', function(snapshot) {
+      if(snapshot.val() != '0'){
+        console.log('hasil',snapshot.val());
+        this.tambahListHarga(snapshot.val())
+      }
+    });
   }
 }
 </script>
